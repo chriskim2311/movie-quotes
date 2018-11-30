@@ -1,18 +1,43 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux'
-import { userSignIn, userSignOut } from '../actions';
+import { userSignOut } from '../actions';
 
 
 class Nav extends Component {
 
-    renderLinks(){
-        const {auth, signIn, signOut} = this.props;
-        if(auth) {
-            return <button onClick={signOut} className= "yellow btn darken-2">Sign Out</button>
+    renderLinks() {
+        const { auth, signOut } = this.props;
+        if (auth) {
+            return (
+                <Fragment>
+                    <li>
+                        <Link to="/secret-list">Secret List</Link>
+                    </li>
+                    <li>
+                        <Link to="/quotes">Quotes</Link>
+                    </li>
+                    <li>
+                        <button onClick={signOut} className="yellow btn darken-2">Sign Out</button>
+                    </li>
+                </Fragment>
+
+
+
+            )
         }
 
-        return <button onClick={signIn} className= "btn red">Sign In</button>
+        return (
+            <Fragment>
+                <li>
+                    <Link to="/sign-in" className="btn red">Sign In</Link>
+                </li>
+                <li>
+                    <Link to="/sign-up">Sign Up</Link>
+                </li>
+
+            </Fragment>
+        )
     }
 
     render() {
@@ -34,18 +59,11 @@ class Nav extends Component {
                         <li>
                             <Link to="/public-list">Public List</Link>
                         </li>
-                        <li>
-                            <Link to="/secret-list">Secret List</Link>
-                        </li>
-                        <li>
-                            <Link to="/quotes">Quotes</Link>
-                        </li>
-                        <li>
-                           {this.renderLinks()}
-                        </li>
-                        <li>
-                            <Link to="/sign-up">Sign Up</Link>
-                        </li>
+
+                    
+                            {this.renderLinks()}
+                      
+
                     </ul>
                 </div>
             </nav>
@@ -59,6 +77,5 @@ function mapStateToProps(state) {
 }
 
 export default connect(mapStateToProps, {
-    signIn: userSignIn,
     signOut: userSignOut
 })(Nav);
